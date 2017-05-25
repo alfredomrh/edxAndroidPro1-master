@@ -5,6 +5,7 @@ import android.text.TextUtils;
 /**
  * Created by alfredo.martinromo on 18/05/2017.
  * aqui se implementan un par de interfaces, la del loginpresenter y la de los metodos call back
+ *
  */
 
 public class LoginPresenterImpl implements LoginPresenter, LoginModel.OnLoginFinisherListener {
