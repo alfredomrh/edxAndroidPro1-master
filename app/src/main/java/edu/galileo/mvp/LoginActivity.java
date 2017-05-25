@@ -2,10 +2,8 @@ package edu.galileo.mvp;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AutoCompleteTextView;
@@ -16,13 +14,10 @@ import android.widget.Toast;
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements LoginView{
 
-
-    /**
-     * Keep track of the login task to ensure we can cancel it if requested.
-     */
-    private UserLoginTask mAuthTask = null;
+    //instacia del presentador que necesitamos para comunicarnos con el
+    private LoginPresenter loginPresenter;
 
     // UI references.
     private AutoCompleteTextView mEmailView;
@@ -50,6 +45,8 @@ public class LoginActivity extends AppCompatActivity {
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+
+        loginPresenter = new LoginPresenterImpl(this);
     }
 
     /**
@@ -58,9 +55,6 @@ public class LoginActivity extends AppCompatActivity {
      * errors are presented and no actual login attempt is made.
      */
     private void attemptLogin() {
-        if (mAuthTask != null) {
-            return;
-        }
 
         // Reset errors.
         mEmailView.setError(null);
@@ -70,16 +64,16 @@ public class LoginActivity extends AppCompatActivity {
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
 
-        boolean cancel = false;
-        View focusView = null;
-
-
+        //llamamos al metodo del presentador que nos valida las credenciales
+        loginPresenter.validateCredential(email, password);
     }
 
 
     /**
      * Shows the progress UI and hides the login form.
      */
+
+    @Override
     public void showProgress(final boolean show) {
         int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
@@ -102,6 +96,23 @@ public class LoginActivity extends AppCompatActivity {
                 mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
             }
         });
+    }
+
+    @Override
+    public void setUsernameError(int messageResId) {
+        mEmailView.setError(getString(messageResId));
+        mEmailView.requestFocus();
+    }
+
+    @Override
+    public void setPasswordError(int messageResId) {
+        mPasswordView.setError(getString(messageResId));
+        mPasswordView.requestFocus();
+    }
+
+    @Override
+    public void successAction() {
+        Toast.makeText(this, "Exito!!!", Toast.LENGTH_SHORT).show();
     }
 
 
