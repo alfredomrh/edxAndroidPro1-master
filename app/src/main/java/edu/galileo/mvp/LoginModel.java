@@ -11,15 +11,5 @@ package edu.galileo.mvp;
 
 public interface LoginModel {
 
-    interface OnLoginFinisherListener{
-
-        void onCanceled();
-
-        void onPasswordError();
-
-        void onSuccess();
-
-    }
-
-    void login(String username, String password, OnLoginFinisherListener listener);
+    void login(String username, String password);
 }

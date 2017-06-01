@@ -8,7 +8,7 @@ import android.text.TextUtils;
  *
  */
 
-public class LoginPresenterImpl implements LoginPresenter, LoginModel.OnLoginFinisherListener {
+public class LoginPresenterImpl implements LoginPresenter {
 
     //necesitamos estas dos instancias para que se pueda comunicar con ambas capas
     private LoginView loginView;
@@ -44,32 +44,13 @@ public class LoginPresenterImpl implements LoginPresenter, LoginModel.OnLoginFin
         }
 
         loginView.showProgress(true);
-        loginModel.login(username,password,this);
+        loginModel.login(username,password);
 
     }
 
     /**
      * Metodos call back del model
      */
-
-    @Override
-    public void onCanceled() {
-        loginView.showProgress(false);
-    }
-
-    @Override
-    public void onPasswordError() {
-        loginView.showProgress(false);
-        loginView.setPasswordError(R.string.error_incorrect_password);
-
-    }
-
-    @Override
-    public void onSuccess() {
-        loginView.showProgress(false);
-        loginView.successAction();
-
-    }
 
     private boolean isEmailValid(String email) {
         //TODO: Replace this with your own logic
