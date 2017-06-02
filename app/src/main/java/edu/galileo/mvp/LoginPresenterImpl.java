@@ -45,7 +45,6 @@ public class LoginPresenterImpl implements LoginPresenter {
 
         loginView.showProgress(true);
         loginModel.login(username,password);
-
     }
 
     /**
